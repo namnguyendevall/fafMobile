@@ -25,13 +25,13 @@ const TEXT_PRIMARY = "#f8fafc";
 const TEXT_SECONDARY = "#94a3b8";
 
 const TransactionItem = ({ item }) => {
-  const isDeposit = item.type === "DEPOSIT" || item.amount > 0;
+  const isIncoming = ["DEPOSIT", "INCOMING", "REFUND", "RELEASE"].includes(item.type);
   
   // Custom title based on reference_type if description is missing
   const title = item.description || (
     item.reference_type === 'ZALOPAY_DEPOSIT' ? 'Nạp tiền ZaloPay' :
     item.reference_type === 'MOMO_DEPOSIT' ? 'Nạp tiền MoMo' :
-    (isDeposit ? "Nạp tiền" : "Thanh toán")
+    (isIncoming ? "Nạp tiền" : "Thanh toán")
   );
 
   const statusColor = item.status === 'SUCCESS' || item.status === 'COMPLETED' ? '#34d399' : 
@@ -39,11 +39,11 @@ const TransactionItem = ({ item }) => {
 
   return (
     <View style={styles.transactionCard}>
-      <View style={[styles.iconContainer, { backgroundColor: isDeposit ? "#064e3b" : "#450a0a" }]}>
+      <View style={[styles.iconContainer, { backgroundColor: isIncoming ? "#064e3b" : "#450a0a" }]}>
         <FontAwesome 
-          name={isDeposit ? "arrow-down" : "arrow-up"} 
+          name={isIncoming ? "arrow-down" : "arrow-up"} 
           size={16} 
-          color={isDeposit ? "#34d399" : "#f87171"} 
+          color={isIncoming ? "#34d399" : "#f87171"} 
         />
       </View>
       <View style={styles.transDetails}>
@@ -51,8 +51,8 @@ const TransactionItem = ({ item }) => {
         <Text style={styles.transDate}>{new Date(item.created_at).toLocaleString('vi-VN')}</Text>
       </View>
       <View style={styles.amountContainer}>
-        <Text style={[styles.transAmount, { color: isDeposit ? "#34d399" : "#f87171" }]}>
-          {isDeposit ? "+" : "-"}{Math.abs(item.amount).toLocaleString()}
+        <Text style={[styles.transAmount, { color: isIncoming ? "#34d399" : "#f87171" }]}>
+          {isIncoming ? "+" : "-"}{Math.abs(item.amount).toLocaleString()}
         </Text>
         <Text style={[styles.transStatus, { color: statusColor }]}>
           {item.status === 'SUCCESS' || item.status === 'COMPLETED' ? '[THÀNH CÔNG]' : 

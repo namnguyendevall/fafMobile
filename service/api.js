@@ -415,3 +415,23 @@ export const uploadFile = async (fileUri) => {
     return handleError(error, "Upload file thất bại");
   }
 };
+
+// --- Admin API ---
+
+export const getUsers = async (page = 1, limit = 20) => {
+  try {
+    const response = await api.get(`/users?page=${page}&limit=${limit}`);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error, "Lấy danh sách người dùng thất bại");
+  }
+};
+
+export const deleteUserByAdmin = async (userId) => {
+  try {
+    const response = await api.delete(`/users/${userId}`);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error, "Xoá người dùng thất bại");
+  }
+};

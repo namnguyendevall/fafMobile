@@ -442,7 +442,10 @@ export default function JobDetailScreen() {
 
           <View style={styles.employerSection}>
             <Text style={styles.sectionTitle}>Nhà tuyển dụng</Text>
-            <View style={styles.employerCard}>
+            <TouchableOpacity 
+              style={styles.employerCard}
+              onPress={() => navigation.navigate("OtherProfile", { userId: job.client?.id })}
+            >
               <View style={styles.employerAvatar}>
                 <Text style={styles.avatarText}>
                   {(job.client?.full_name || job.client?.email || "E").charAt(0).toUpperCase()}
@@ -460,7 +463,7 @@ export default function JobDetailScreen() {
                   <Text style={styles.ratingText}>4.8 • Đã xác minh thanh toán</Text>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

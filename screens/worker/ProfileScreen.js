@@ -165,6 +165,15 @@ export default function ProfileScreen({ navigation }) {
                 label="Bảo mật & Mật khẩu" 
                 onPress={() => navigation.navigate("ChangePassword")} 
               />
+              
+              {user?.role === 'admin' && (
+                <MenuItem 
+                  icon="people-outline" 
+                  label="Quản lý người dùng (Admin)" 
+                  color={AMBER}
+                  onPress={() => navigation.navigate("AdminUserManagement")} 
+                />
+              )}
             </View>
 
             {/* CV Section: Education */}

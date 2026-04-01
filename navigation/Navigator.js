@@ -26,6 +26,7 @@ import WithdrawalScreen from "../screens/worker/WithdrawalScreen";
 import ChangePasswordScreen from "../screens/worker/ChangePasswordScreen";
 import ResetPasswordScreen from "../screens/auth/ResetPasswordScreen";
 import OtherProfileScreen from "../screens/worker/OtherProfileScreen";
+import AdminUserManagementScreen from "../screens/worker/AdminUserManagementScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -225,6 +226,18 @@ export default function Navigator() {
           component={ChangePasswordScreen}
           options={{
             title: "Đổi mật khẩu",
+            headerStyle: { backgroundColor: "#020617" },
+            headerTitleStyle: { fontWeight: "800", fontSize: 18, color: "#e2e8f0" },
+            headerTintColor: "#0891b2",
+            headerShadowVisible: false,
+            headerBackTitleVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="AdminUserManagement"
+          component={AdminUserManagementScreen}
+          options={{
+            title: "Quản lý người dùng",
             headerStyle: { backgroundColor: "#020617" },
             headerTitleStyle: { fontWeight: "800", fontSize: 18, color: "#e2e8f0" },
             headerTintColor: "#0891b2",

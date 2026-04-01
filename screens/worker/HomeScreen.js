@@ -194,7 +194,10 @@ export default function HomeScreen({ navigation }) {
                 <>
                   {posts.map((post) => (
                     <View key={post.id} style={styles.postCard}>
-                      <View style={styles.postHeader}>
+                      <TouchableOpacity 
+                        style={styles.postHeader}
+                        onPress={() => navigation.navigate("OtherProfile", { userId: post.user_id })}
+                      >
                         <View style={styles.postAvatar}>
                           <Text style={styles.postAvatarText}>{post.user_full_name?.charAt(0) || "U"}</Text>
                         </View>
@@ -202,7 +205,7 @@ export default function HomeScreen({ navigation }) {
                           <Text style={styles.postUserName}>{post.user_full_name}</Text>
                           <Text style={styles.postTime}>{new Date(post.created_at).toLocaleDateString()}</Text>
                         </View>
-                      </View>
+                      </TouchableOpacity>
                       <Text style={styles.postContent}>{post.content}</Text>
                       {post.image_url && (
                         <View style={styles.postImagePlaceholder} />

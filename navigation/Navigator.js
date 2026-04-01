@@ -25,6 +25,7 @@ import ChatScreen from "../screens/worker/ChatScreen";
 import WithdrawalScreen from "../screens/worker/WithdrawalScreen";
 import ChangePasswordScreen from "../screens/worker/ChangePasswordScreen";
 import ResetPasswordScreen from "../screens/auth/ResetPasswordScreen";
+import OtherProfileScreen from "../screens/worker/OtherProfileScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -137,6 +138,18 @@ export default function Navigator() {
           component={EditProfileScreen}
           options={{
             title: "Chỉnh sửa hồ sơ",
+            headerStyle: { backgroundColor: "#020617" },
+            headerTitleStyle: { fontWeight: "800", fontSize: 18, color: "#e2e8f0" },
+            headerTintColor: "#0891b2",
+            headerShadowVisible: false,
+            headerBackTitleVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="OtherProfile"
+          component={OtherProfileScreen}
+          options={{
+            title: "Hồ sơ cá nhân",
             headerStyle: { backgroundColor: "#020617" },
             headerTitleStyle: { fontWeight: "800", fontSize: 18, color: "#e2e8f0" },
             headerTintColor: "#0891b2",

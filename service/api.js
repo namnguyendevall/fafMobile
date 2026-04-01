@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Dùng URL deploy thực tế trên Railway
-const API_BASE_URL = "https://fafbe-production.up.railway.app/api";
+const API_BASE_URL = "https://fafbe-productionf.up.railway.app/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -62,6 +62,15 @@ export const getCurrentUserProfile = async () => {
     return handleResponse(response);
   } catch (error) {
     return handleError(error, "Lấy thông tin user thất bại");
+  }
+};
+
+export const getPublicProfile = async (userId) => {
+  try {
+    const response = await api.get(`/users/${userId}`);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error, "Lấy thông tin profile thất bại");
   }
 };
 

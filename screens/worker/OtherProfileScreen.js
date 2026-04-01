@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator, Image, Platform } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator, Image, Platform, Alert } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import { getPublicProfile } from "../../service/api";
+import { getPublicProfile, startChat } from "../../service/api";
 
 const BG_BASE = "#020617";
 const BG_SURFACE = "#090e17";
@@ -33,6 +33,26 @@ export default function OtherProfileScreen({ route, navigation }) {
     };
     fetchProfile();
   }, [userId]);
+
+  const handleStartChat = async () => {
+    try {
+      if (!user) return;
+      
+      const res = await startChat(user.id);
+      if (res.success && res.data) {
+        const convId = res.data.id || res.data.conversationId;
+        navigation.navigate("Chat", {
+          conversationId: convId,
+          partnerName: user.full_name,
+        });
+      } else {
+        Alert.alert("Lỗi", "Không thể bắt đầu cuộc trò chuyện. Vui lòng thử lại.");
+      }
+    } catch (err) {
+      console.error("Start chat error:", err);
+      Alert.alert("Lỗi", "Đã xảy ra sự cố khi mở chat.");
+    }
+  };
 
   if (loading) {
     return (
@@ -75,7 +95,7 @@ export default function OtherProfileScreen({ route, navigation }) {
 
         {/* Action Buttons */}
         <View style={styles.actionRow}>
-          <TouchableOpacity style={styles.chatButton}>
+          <TouchableOpacity style={styles.chatButton} onPress={handleStartChat}>
              <Ionicons name="chatbubble-ellipses" size={18} color="#000" />
              <Text style={styles.chatButtonText}>Nhắn tin</Text>
           </TouchableOpacity>

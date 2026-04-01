@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator, RefreshControl } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { getConversations } from "../../service/api";
+import { getConversations, getCurrentUserProfile } from "../../service/api";
 
 const BG_BASE = "#020617";
 const BG_SURFACE = "#090e17";
@@ -14,14 +14,22 @@ const EMERALD = "#10b981";
 
 export default function MessageScreen({ navigation }) {
   const [conversations, setConversations] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchConversations = async () => {
     try {
-      const result = await getConversations();
-      if (result.success) {
-        setConversations(result.data || []);
+      const [profileRes, convRes] = await Promise.all([
+        getCurrentUserProfile(),
+        getConversations()
+      ]);
+      
+      if (profileRes.success) {
+        setCurrentUser(profileRes.data);
+      }
+      if (convRes.success) {
+        setConversations(convRes.data || []);
       }
     } catch (err) {
       console.error("Fetch conversations error:", err);
@@ -67,8 +75,9 @@ export default function MessageScreen({ navigation }) {
         ) : conversations.length > 0 ? (
           <View style={styles.list}>
             {conversations.map((item) => {
-              const otherUser = item.other_user || {};
-              const partnerName = otherUser.full_name || otherUser.email || "User";
+              const participants = item.participants || [];
+              const otherUser = participants.find(p => currentUser && String(p.id) !== String(currentUser.id)) || participants[0] || {};
+              const partnerName = otherUser.full_name || otherUser.email?.split('@')[0] || "User";
               return (
                 <TouchableOpacity
                   key={item.id}
